@@ -3,12 +3,13 @@ import { useReducer } from 'react';
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ProgressCircle } from '../ProgressCircle';
+import { timerMachine, timerMachineConfig } from './timerMachine';
 
 // Import the timer machine and its initial state:
 // import { ... } from './timerMachine';
 
 export const Timer = () => {
-  const state = ''; // delete me - useReducer instead!
+  const [state, dispatch] = useReducer(timerMachine, timerMachineConfig.initial);
 
   const { duration, elapsed, interval } = {
     duration: 60,
@@ -44,7 +45,7 @@ export const Timer = () => {
         <div className="controls">
           <button
             onClick={() => {
-              // ...
+              dispatch({ type: 'RESET' });
             }}
           >
             Reset
@@ -52,23 +53,23 @@ export const Timer = () => {
         </div>
       </div>
       <div className="actions">
-        <button
+        {state !== 'paused' && (<button
           onClick={() => {
-            // ...
+            dispatch({ type: 'TOGGLE' });
           }}
           title="Pause timer"
         >
           <FontAwesomeIcon icon={faPause} />
-        </button>
+        </button>)}
 
-        <button
+        {(state === 'paused' || state === 'idle') && (<button
           onClick={() => {
-            // ...
+            dispatch({ type: 'TOGGLE' });
           }}
           title="Start timer"
         >
           <FontAwesomeIcon icon={faPlay} />
-        </button>
+        </button>)}
       </div>
     </div>
   );

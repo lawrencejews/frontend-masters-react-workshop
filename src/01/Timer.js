@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ProgressCircle } from '../ProgressCircle';
 
-// import { useMachine } from '@xstate/react';
+import { useMachine } from '@xstate/react';
 import { timerMachine } from './timerMachine';
 
+
 export const Timer = () => {
-  const [state, send] = [{}, () => {}];
+  const [state, send] = useMachine(timerMachine);
 
   const { duration, elapsed, interval } = {
     duration: 60,
@@ -36,7 +37,7 @@ export const Timer = () => {
         <div
           className="elapsed"
           onClick={() => {
-            // ...
+            send({ type: 'TOGGLE' });
           }}
         >
           {Math.ceil(duration - elapsed)}
@@ -45,7 +46,7 @@ export const Timer = () => {
           {state === 'paused' && (
             <button
               onClick={() => {
-                // ...
+                send({ type: 'RESET' });
               }}
             >
               Reset
@@ -57,7 +58,7 @@ export const Timer = () => {
         {state === 'running' && (
           <button
             onClick={() => {
-              // ...
+              send({ type: 'TOGGLE' });
             }}
             title="Pause timer"
           >
@@ -68,7 +69,7 @@ export const Timer = () => {
         {(state === 'paused' || state === 'idle') && (
           <button
             onClick={() => {
-              // ...
+              send({ type: 'TOGGLE' });
             }}
             title="Start timer"
           >

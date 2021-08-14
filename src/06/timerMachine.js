@@ -22,7 +22,25 @@ export const timerMachine = createMachine({
     running: {
       // Add the `normal` and `overtime` nested states here.
       // Don't forget to add the initial state (`normal`)!
-      // ...
+      initial: 'normal',
+      states: {
+        normal: {
+          always: {
+            target: 'overtime',
+            cond: (context) => {
+              return context.elapsed >= context.duration
+            }
+          }
+        },
+        on: {
+          RESET:'undefined',
+        },
+        overtime: {
+          on: {
+            TOGGLE: undefined,
+          }
+        }
+      },
 
       on: {
         TICK: {

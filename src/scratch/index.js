@@ -161,6 +161,15 @@ const alarmsMachine = createMachine({
 
 export const ScratchApp = () => {
   const [state, send] = useMachine(alarmsMachine);
+  const [greetState] = useMachine(alarmMachine);
+
+  useEffect(() => {
+    // if (status === 'pending') {
+    //   const timeout = setTimeout(() => {
+    //     send('SUCCESS');
+    //   }, 2000)
+    // }
+  }, [])
 
   return (
     <div className="scratch">
